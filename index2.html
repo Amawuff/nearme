@@ -48,7 +48,6 @@
   // coordinate.
   
   
-  console.log(locations);
   for (var i = 0; i < locations.length; i++) {
     var venue = locations[i];
     var myLatLng = new google.maps.LatLng(venue[1], venue[2]);
@@ -70,14 +69,17 @@
 			$(document).ready(function() {
 				var categoryData = [];
 
+				var formData = {category: "food",location:"Detroit"}
+
 				var getYelp = function getYelp(){
 					console.log("GETTING YELP")
 					  $.ajax({
 					      url: "yelp.php",
 					      type: "post",
-					 	 datatype: 'json',
+					      data: formData,
+					      datatype: 'json',
 					      success: function(data){
-					            console.log(data);      
+					      		console.log("LAT: "+data.location.coordinate.latitude)     
 					      },
 					      error:function(){
 					          console.log("ERROR JERK OFF");
@@ -101,7 +103,6 @@
 										$("#category-list").append("<li>"+val.category+"</li>");
 									}
 								})
-								console.log(categoryData);
 		 					});
 
 		 					getYelp();
