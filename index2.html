@@ -69,6 +69,21 @@
 
 			$(document).ready(function() {
 				var categoryData = [];
+
+				var getYelp = function getYelp(){
+					console.log("GETTING YELP")
+					  $.ajax({
+					      url: "yelp.php",
+					      type: "post",
+					 	 datatype: 'json',
+					      success: function(data){
+					            console.log(data);      
+					      },
+					      error:function(){
+					          console.log("ERROR JERK OFF");
+					      }   
+					}); 
+				}
 				var cBack = function updateStatusCallback(){
 					FB.getLoginStatus(function(response) {
 						if (response.status === 'connected') {
@@ -83,11 +98,13 @@
 								$.each(response.data,function(i,val){
 									if($.inArray(val.category,categoryData) == -1){
 										categoryData.push(val.category);
-										$("#category-list").append("<p>"+val.category+"</p>");
+										$("#category-list").append("<li>"+val.category+"</li>");
 									}
 								})
 								console.log(categoryData);
 		 					});
+
+		 					getYelp();
 						} else if (response.status === 'not_authorized') {
 							// the user is logged in to Facebook, 
 							// but has not authenticated your app
@@ -116,10 +133,9 @@
 		$('#loginbutton,#feedbutton').removeAttr('disabled');
 				FB.getLoginStatus(cBack);
 		});
-
-		$
 });
-		</script>
+
+</script>
 </head>
 <body>
     <div class="jumbotron">
@@ -131,7 +147,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3" id="category-list"></div>
+			<div class="col-md-3"><ul id="category-list"></ul></div>
 			<div class="col-md-9">
 				<p>Here are the recommended places in the area:</p>
 	<div id="map-container">
