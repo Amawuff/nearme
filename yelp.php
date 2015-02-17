@@ -13,7 +13,7 @@ $TOKEN_SECRET = "idwXLc7a-NjsOonYYL9QSQMylp4";
 
 $API_HOST = 'api.yelp.com';
 $DEFAULT_TERM = 'dinner';
-$DEFAULT_LOCATION = 'San Francisco, CA';
+$DEFAULT_LOCATION = 'Detroit, MI';
 $SEARCH_LIMIT = 10;
 $SEARCH_PATH = '/v2/search/';
 $BUSINESS_PATH = '/v2/business/';
@@ -50,7 +50,7 @@ function request($host, $path) {
     // // Get the signed URL
     $signed_url = $oauthrequest->to_url();
 
-    // // Send Yelp API Call
+    // // // Send Yelp API Call
     $ch = curl_init($signed_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -68,10 +68,9 @@ function request($host, $path) {
  * @return   The JSON response from the request 
  */
 function search($term, $location) {
-
     $url_params = array();
     $url_params['term'] = $term ?: $GLOBALS['DEFAULT_TERM'];
-    $url_params['location'] = $location?: $GLOBALS['DEFAULT_LOCATION'];
+    $url_params['location'] = $location ?: $GLOBALS['DEFAULT_LOCATION'];
     $url_params['limit'] = $GLOBALS['SEARCH_LIMIT'];
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
     
@@ -96,9 +95,9 @@ function get_business($business_id) {
  * @param    $term        The search term to query
  * @param    $location    The location of the business to query
  */
-function query_api($term, $location) {     
+function query_api($term,$location) {     
     
-    $response = json_decode(search($term, $location));
+    $response = json_decode(search($term,$location));
     $business_id = $response->businesses[0]->id;
     
     // print sprintf(
@@ -114,6 +113,10 @@ function query_api($term, $location) {
    // print "$response\n";
 }
 header('Content-Type: application/json');
-echo query_api($_POST["category"],$_POST["location"]);
-
+ if(isset($_GET['category']) && isset($_GET['location'])){
+    echo query_api($_GET["category"],$_GET['location']);
+}else{
+    echo "Missing Inputs";
+}
+//
 ?>

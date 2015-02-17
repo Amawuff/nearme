@@ -12,8 +12,12 @@
 width:100%;
 height:100%;
 }
-#map-container{
-width:512px;
-height:256px;
 
+#category-items{
+	padding-top: 10px;
+}
+
+#submit-button{
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
