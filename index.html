@@ -13,6 +13,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
       <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoF5rofkhCxeljdPT-bVBJJ84Gp-rcKhQ">
+      <script type="text/javascript" src="lib/fbSDK.js"></script>
     </script>
 
       
@@ -28,7 +29,7 @@
 
 	   		if(response.status ==='connected'){
 	   		//logged in to app
-	   		testAPI();
+	   		//testAPI();
 	   		getLikes();
 	   		} else if(response.status === 'not authorized') {
 	   		//not logged in to app, but logged in to facebook.	
@@ -56,9 +57,6 @@
 	       });
 
 	       checkLoginState();
-
-
-	     
 	     };
 
 	    //load sdk
