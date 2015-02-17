@@ -7,18 +7,28 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css" />
 	<script type="text/javascript" src="lib/yelp.js"></script>
-	<script type="text/javascript" src="lib/maps.js"></script>
+	<!--<script type="text/javascript" src="lib/maps.js"></script>-->
 	<script type="text/javascript" src="lib/facebook.js"></script>
 	<title>jQuery Example</title>
 </head>
 <body>
     <div class="jumbotron">
       <div class="container">
-        <h1>Your Neighborhood</h1>
-        <p>We know your neighborhood. See what's near you.</p>
-        <div id="fb-root">
-        	
-        </div>
+        <h1>Your Next Home</h1>
+        <p>Has something for you, rent.com!</p>
+      </div>
+      <div class="container">
+      	<form class="form-horizontal">
+      		<div class="form-group form-group-lg">
+      			<label for="address" class="col-sm-1 control-label">Name</label>
+      			<div class="col-sm-9">
+     				<input id="address" class="form-control" type="text" placeholder="Enter Address">
+     			</div>
+     			<div class="col-sm-2">
+     				<button type="button" class="btn btn-primary btn-lg">Submit</button>
+     			</div>
+     		</div>
+     	</form>
       </div>
     </div>
 
