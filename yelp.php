@@ -17,6 +17,7 @@ $DEFAULT_LOCATION = 'Detroit, MI';
 $SEARCH_LIMIT = 10;
 $SEARCH_PATH = '/v2/search/';
 $BUSINESS_PATH = '/v2/business/';
+$RADIUS_LIMIT = 16093;
 
 /** 
  * Makes a request to the Yelp API and returns the response
@@ -71,6 +72,7 @@ function search($term, $location) {
     $url_params = array();
     $url_params['term'] = $term ?: $GLOBALS['DEFAULT_TERM'];
     $url_params['location'] = $location ?: $GLOBALS['DEFAULT_LOCATION'];
+    $url_params['radius_limit'] = $GLOBALS['RADIUS_LIMIT'];
     $url_params['limit'] = $GLOBALS['SEARCH_LIMIT'];
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
     
@@ -97,8 +99,8 @@ function get_business($business_id) {
  */
 function query_api($term,$location) {     
     
-    $response = json_decode(search($term,$location));
-    $business_id = $response->businesses[0]->id;
+    //$response = json_decode(search($term,$location));
+    //$business_id = $response->businesses[0]->id;
     
     // print sprintf(
     //      "%d businesses found, querying business info for the top result \"%s\"\n\n",         
@@ -106,9 +108,9 @@ function query_api($term,$location) {
     //      $business_id
     //  );
     
-   $response = get_business($business_id);
+   //$response = get_business($business_id);
     
-    return $response;
+    return search($term,$location);
    // print sprintf("Result for business \"%s\" found:\n", $business_id);
    // print "$response\n";
 }
