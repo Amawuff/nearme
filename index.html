@@ -1,170 +1,67 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
-
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>NearYou</title>
-    <!--bootstrap and jquery-->
-     <!--	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">-->
-      <link rel="stylesheet" href="style.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-      <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoF5rofkhCxeljdPT-bVBJJ84Gp-rcKhQ">
-    </script>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoF5rofkhCxeljdPT-bVBJJ84Gp-rcKhQ"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css" />
+	<script type="text/javascript" src="lib/yelp.js"></script>
+	<script type="text/javascript" src="lib/maps.js"></script>
+<script type="text/javascript" src="lib/facebook.js"></script>
+<title>jQuery Example</title>
+</head>
+<body>
+<div class="jumbotron">
+	<div class="container">
+		<h1>Your Next Home</h1>
+		<p>Has something for you, rent.com!</p>
+	</div>
+	<div class="container">
+		<form class="form-horizontal">
+			<div class="form-group form-group-lg">
+				<label for="address" class="col-sm-2 control-label">Property Address:</label>
+				<div class="col-sm-10">
+					<input id="address" class="form-control" type="text" placeholder="Enter Address">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!--
+<div class="col-md-9">
+			<div id='fb-root'>
+				<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="true"></div>
+			</div>
+			<p>Here are the recommended places in the area:</p>
 
-      
+			<div id='status'></div>
+			<div id="map-container">
+				<div id="map-canvas"></div>
+			</div>
+		</div>
+-->
+<div class="container">
+	<div class="row">
+		<div>
+			<form class="form-inline" id="category-list">
 
-  
-  </head>
-  <body>
-  	<script type="text/javascript">
-	    
-	    function statusChangeCallback (response) {
-	    console.log('statusChangeCallback');
-	    console.log(response);
+			</form>
+		</div>
+	</div>
+	<div class="row" id="submit-button">
+		<button id="build-neighborhood" type="button" data-target=".bs-example-modal-lg" data-loading-text="finding stuff" data-toggle="modal" class="btn btn-primary btn-lg btn-block">Build My Neighborhood</button>
+	</div>
+</div>
 
-	   		if(response.status ==='connected'){
-	   		//logged in to app
-	   		testAPI();
-	   		getLikes();
-	   		} else if(response.status === 'not authorized') {
-	   		//not logged in to app, but logged in to facebook.	
-	   		document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
-
-	   		} else{
-	   			//not logged in to facebook
-	   			document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
-	   			}
-	    };
-
-	    function checkLoginState() {
-	        FB.getLoginStatus(function(response) {
-	          statusChangeCallback(response);
-	        });
-	      }
-
-
-	    window.fbAsyncInit = function() {
-	        FB.init({appId      : '431061247042841', 
-	        		 cookie     : true,
-	        		 xfbml      : true,
-          			 version    : 'v2.1',
-          			 status     : true,
-	       });
-
-	       checkLoginState();
-
-
-	     
-	     };
-
-	    //load sdk
-		(function(d, s, id){
-	         var js, fjs = d.getElementsByTagName(s)[0];
-	         if (d.getElementById(id)) {return;}
-	         js = d.createElement(s); js.id = id;
-	         js.src = "//connect.facebook.net/en_US/sdk.js";
-	         fjs.parentNode.insertBefore(js, fjs);
-	       }(document, 'script', 'facebook-jssdk'));
-
-	   function testAPI() {
-	        console.log('Welcome!  Fetching your information.... ');
-	        FB.api('/me', function(response) {
-	          console.log('Successful login for: ' + response.name);
-	          document.getElementById('status').innerHTML =
-	            'Thanks for logging in, ' + response.first_name + '!';
-
-	        });
-		}
-
-		function getLikes() {
-			FB.api('/me?fields=likes{category}(', function(response) {
-			console.log('user likes: ' + response.category)
-			});
-		}
-		//maps api
-		function initialize() {
-			var centerpoint = new google.maps.LatLng(42.487757,-83.2895829);
-			console.log("Map initialization happening")
-        var mapOptions = {
-          center: centerpoint,
-          zoom: 10
-
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-        //marker for center
-       	var centermarker = new google.maps.Marker({
-       		position:centerpoint,
-       		map:map,
-       		title:"Your New Apartment"
-		})
-
-
-       	var places = [
-  ['Callahans', 42.620471,-83.245066, 1,'images/music.png'],
-  ['Magic Stick', 42.351162,-83.05991, 2,'images/music.png'],
-  ['Royal Oak Music Theatre',42.48734,-83.147408, 3,'images/music.png'],
-  ['The Book Beat', 42.4803193,-83.266704, 4,'images/book.png'],
-  ['Berkley Book Corner',42.4854656,-83.2580983, 5,'images/book.png'],
-  ['Spitzers Hebrew Books & Gifts', 42.4854656,-83.2580983, 6,'images/book.png']
-
-];
-
-        setMarkers(map,places);
- function setMarkers(map, locations) {
-  // Add markers to the map
-
-  // Marker sizes are expressed as a Size of X,Y
-  // where the origin of the image (0,0) is located
-  // in the top left of the image.
-
-  // Origins, anchor positions and coordinates of the marker
-  // increase in the X direction to the right and in
-  // the Y direction down.
- 
-  // Shapes define the clickable region of the icon.
-  // The type defines an HTML &lt;area&gt; element 'poly' which
-  // traces out a polygon as a series of X,Y points. The final
-  // coordinate closes the poly by connecting to the first
-  // coordinate.
-  //set center mark
-
-
-  
-  console.log(locations);
-  for (var i = 0; i < locations.length; i++) {
-    var venue = locations[i];
-    var myLatLng = new google.maps.LatLng(venue[1], venue[2]);
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        icon: venue[4],
-        title: venue[0],
-        zIndex: venue[3]
-    });
-   }
-  }
-}
-
-      
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-	</script>
-  	
- 	<div id = "fb-root"> 
-  		<fb:login-button scope="public_profile,likes" onlogin="checkLoginState();"></fb:login-button>
-          
- 	 	<div id = "status">Status</div>
- 	</div>
-	<p>We see you like Music and Books.</p>
-	<p>Here are the recommended places in the area:</p>
-	<div id="map-container">
+<!-- Large modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div id="map-container">
 		<div id="map-canvas"></div>
 	</div>
-
+    </div>
+  </div>
+</div>
 </body>
 </html>
